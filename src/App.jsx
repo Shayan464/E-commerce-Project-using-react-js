@@ -1,0 +1,74 @@
+import React from "react";
+import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
+import Header from "./Components/Header";
+import Footer from "./Components/foot";
+import Sidebar from "./Components/Sidebar";
+import About from "./Components/ContactHome/About";
+import Contact from "./Components/ContactHome/Contact";
+import Games from "./Components/ContactHome/Games";
+import Pc from "./Components/ContactHome/Pc";
+import ProductList from "./Components/ContactHome/ProductList";
+import UserRegistration from "./UserRegistration";
+import AuthGate from "./AuthGate";
+import CartPage from "./CartPage";
+import AddProduct from "./Components/ContactHome/AddProduct";
+import Error from "./Components/ContactHome/Error";
+import Login from "./LoginPage";
+import Home from "../src/Components/ContactHome/Home";
+import RoleGate from "./RoleGate";
+import { AdminPage } from "./UserType/AdminPage";
+import { UserPage } from "./UserType/UserPage";
+
+function App() {
+  return (
+    <div className="h-screen overflow-hidden bg-cover bg-center bg-fixed bg-[url('https://picfiles.alphacoders.com/236/thumb-1920-236802.jpg')]">
+      <div className="h-full backdrop-blur-sm bg-white/10">
+        <Router>
+          <div className="flex flex-col h-full text-black">
+            <div className="h-20 flex-shrink-0">
+              <Header />
+            </div>
+            <div className="flex flex-1 overflow-hidden">
+              <Sidebar />
+              <main className="flex-1 overflow-y-auto p-4">
+                <Routes>
+                  <Route path="/" element={<Login />} />
+                  <Route path="/UserRegister" element={<UserRegistration />} />
+
+                  <Route element={<AuthGate />}>
+                    <Route path="/home" element={<Home />} />
+                    <Route path="/cart" element={<CartPage />} />
+                    <Route path="/Add" element={<AddProduct />} />
+                    <Route path="/about" element={<About />} />
+                    <Route path="/contact" element={<Contact />} />
+                    <Route path="/pc" element={<Pc />} />
+                    <Route path="/ProductLists" element={<ProductList />} />
+                    <Route path="/games" element={<Games />} />
+                    <Route path="*" element={<Error />} />
+
+                    <Route element={<RoleGate allowedRoles={["Admin"]} />}>
+                      <Route path="/admin" element={<AdminPage />}>
+                        <Route
+                          path="UserRegister"
+                          element={<UserRegistration />}
+                        />
+                      </Route>
+                    </Route>
+
+                    <Route element={<RoleGate allowedRoles={["User"]} />}>
+                      <Route path="/user" element={<UserPage />} />
+                    </Route>
+                  </Route>
+                </Routes>
+              </main>
+            </div>
+            <div className="h-16 flex-shrink-0">
+              <Footer />
+            </div>
+          </div>
+        </Router>
+      </div>
+    </div>
+  );
+}
+export default App;

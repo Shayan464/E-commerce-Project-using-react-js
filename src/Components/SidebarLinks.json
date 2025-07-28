@@ -1,0 +1,50 @@
+[
+ {
+  "label" : "Login",
+  "path" : "/",
+   "icon" : "♦",
+   "roles" : ["guest"] 
+ },
+  {
+    "label": "Home",
+    "path": "/home",
+    "icon": "🏠",
+    "roles": ["user", "admin"]
+  },
+  {
+    "label": "About",
+    "path": "/about",
+    "icon": "ℹ️",
+    "roles": ["user", "admin"]
+  },
+  {
+    "label": "Contact",
+    "path": "/contact",
+    "icon": "📞",
+    "roles": ["user", "admin"]
+  },
+  {
+    "label": "Products",
+    "path": "/pc",
+    "icon": "🛍️",
+    "roles": ["user", "admin"]
+  },
+  {
+    "label": "Games",
+    "path": "/games",
+    "icon": "🎮",
+    "roles": ["user", "admin"]
+  },
+  {
+    "label": "Product Lists",
+    "path": "/ProductLists",
+    "icon": "📋",
+    "roles": ["user", "admin"]
+  },
+  {
+    "label": "User Registration",
+    "path": "/admin/UserRegister",
+    "icon": "👤",
+    "roles": ["admin"]
+  }
+]
