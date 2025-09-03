@@ -1,24 +1,36 @@
-import React from 'react';
+import React from "react";
 
-const SelectInput = ({ name,value,onChange ,label}) => (
-<div className="mb-4">
-  <label className="block  text-sm font-medium mb-1">
-    {label}
-  </label>
-  <select
-  name={name}
-    value={value}
-    onChange={onChange}
-    className="w-50 text-black border border-gray-600 rounded-md focus:outline-none focus:ring-2 focus:ring-indigo-500 px-2 py-1"
-  >
-    <option value="">Select</option>
-    <option value="Male">Male</option>
-    <option value="Female">Female</option>
-    <option value="Other">Other</option>
-  </select>
-</div>
-);
+export default function ConditionSelect({ field, name, value, onChange, label }) {
+  let options = [];
 
-export default SelectInput;
+  if (field === "Gender") {
+    options = ["Male", "Female", "Other"];
+  } else if (field === "User Type") {
+    options = ["User", "Admin"];
+  }
 
-
+  return (
+    <div className="mb-4">
+      {label && (
+        <label className="block text-sm font-medium mb-1">
+          {label}
+        </label>
+      )}
+      <select
+        name={name}
+        value={value}
+        onChange={onChange}
+        className="w-52 text-black border border-gray-600 rounded-md 
+                   focus:outline-none focus:ring-2 focus:ring-indigo-500 
+                   px-2 py-1"
+      >
+        <option value="">Select</option>
+        {options.map((option) => (
+          <option key={option} value={option}>
+            {option}
+          </option>
+        ))}
+      </select>
+    </div>
+  );
+}

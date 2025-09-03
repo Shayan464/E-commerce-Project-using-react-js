@@ -15,12 +15,15 @@
     "@heroicons/react": "^1.0.6",
     "@mui/icons-material": "^7.1.2",
     "@mui/material": "^7.1.2",
+    "axios": "^1.11.0",
     "formik": "^2.4.6",
     "framer-motion": "^12.23.0",
     "react": "^19.1.0",
     "react-dom": "^19.1.0",
+    "react-loading-skeleton": "^3.5.0",
     "react-router-dom": "^7.6.0",
     "react-toastify": "^11.0.5",
+    "uuid": "^11.1.0",
     "yup": "^1.6.1"
   },
   "devDependencies": {

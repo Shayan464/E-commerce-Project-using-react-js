@@ -4,7 +4,7 @@ import DescriptionField from "./DescriptionField";
 import Button from "./Button";
 import InputField from "./InputField";
 import PasswordInput from "./PasswordInput";
-import SelectInput from "./SelectInput";
+import ConditionSelect from "./SelectInput";
 
 const FormComponent = ({ user, onInputChange, onSubmit, onCancel }) => {
   return (
@@ -59,11 +59,13 @@ const FormComponent = ({ user, onInputChange, onSubmit, onCancel }) => {
     </div>
 <div></div>
     <div className="grid grid-cols-1 sm:grid-cols-3 gap-6">
-      <SelectInput
-        label="Gender"
-        name="Gender"
-        value={user.Gender}
-        onChange={onInputChange}/>
+      <ConditionSelect
+      field="Gender"
+      name="gender"
+      value={user.gender}
+      onChange={onInputChange}
+      label="Select Gender"
+       />
  
       <InputField
         label="DOB"
@@ -75,12 +77,13 @@ const FormComponent = ({ user, onInputChange, onSubmit, onCancel }) => {
           "border border-gray-600 rounded-md focus:outline-none focus:ring-2 focus:ring-indigo-500 w-46  min-w-[200px]"
         }
       />
-      <SelectInput
-      label="Type"
-      name="Type"
-      value={user.Type}
+     <ConditionSelect
+       field="User Type"
+      name="userType"
+      value={user.userType}
       onChange={onInputChange}
-      />
+      label="Select User Type"
+/>
       </div>
 
     <DescriptionField
