@@ -61,8 +61,8 @@ const FormComponent = ({ user, onInputChange, onSubmit, onCancel }) => {
     <div className="grid grid-cols-1 sm:grid-cols-3 gap-6">
       <ConditionSelect
       field="Gender"
-      name="gender"
-      value={user.gender}
+      name="Gender"
+      value={user.Gender}
       onChange={onInputChange}
       label="Select Gender"
        />
@@ -79,8 +79,8 @@ const FormComponent = ({ user, onInputChange, onSubmit, onCancel }) => {
       />
      <ConditionSelect
        field="User Type"
-      name="userType"
-      value={user.userType}
+      name="Type"
+      value={user.Type}
       onChange={onInputChange}
       label="Select User Type"
 />
