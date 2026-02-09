@@ -102,6 +102,6 @@ Software Developer | React & Web Development
 
 ---
 
---Project is Live on https://e-commerce-project-using-react-js.onrender.com
+--Project is Live on https://e-commerce-project-react-js-1.onrender.com
 
 ⭐ If you like this project, consider giving it a star!
