@@ -2,7 +2,6 @@ import React from 'react';
 import { Link } from 'react-router-dom';
 import { useAuth } from '../AuthContext';
 import SidebarLinks from './SidebarLinks.json';
-import { SidebarContent, SidebarHeader } from './ui/sidebar';
 
 function Sidebar() {
   const { user } = useAuth();
