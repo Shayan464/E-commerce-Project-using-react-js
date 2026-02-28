@@ -1,10 +1,10 @@
 [
- {
-  "label" : "Login",
-  "path" : "/",
-   "icon" : "♦",
-   "roles" : ["guest"] 
- },
+  {
+    "label": "Login",
+    "path": "/",
+    "icon": "♦",
+    "roles": ["guest"]
+  },
   {
     "label": "Home",
     "path": "/home",
@@ -42,7 +42,7 @@
     "roles": ["user", "admin"]
   },
   {
-    "label": "User Registration",
+    "label": "Manage Users",
     "path": "/admin/UserRegister",
     "icon": "👤",
     "roles": ["admin"]

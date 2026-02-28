@@ -1,22 +1,21 @@
-import React, { useEffect, useState } from "react";
-import Card from "../../Card/Card";
-import CommonButton from "../../CommonButton";
-import { useCart } from "../../CartContext";
-import { useNavigate } from "react-router-dom";
-import Pagination from "../Pagination";
-import AddProduct from "./AddProduct";
-import { fetchProducts } from "./Services";
-import { v4 as uuidv4 } from "uuid";
+import React, { useEffect, useState } from 'react';
+import Card from '../../Card/Card';
+import CommonButton from '../../CommonButton';
+import { useCart } from '../../CartContext';
+import { useNavigate } from 'react-router-dom';
+import Pagination from '../Pagination';
+import AddProduct from './AddProduct';
+import { fetchProducts } from './Services';
+import { v4 as uuidv4 } from 'uuid';
 // eslint-disable-next-line no-unused-vars
-import { motion, AnimatePresence, number } from "framer-motion";
-import Customerreview from "../../Filters/Customer review";
-import Category from "../../Filters/Category";
-import Search from "../../Filters/Search";
-import { useAuth } from "../../AuthContext";
-import Skeleton from "react-loading-skeleton";
-import "react-loading-skeleton/dist/skeleton.css";
-import { toast } from "react-toastify";
-
+import { motion, AnimatePresence, number } from 'framer-motion';
+import Customerreview from '../../Filters/Customer review';
+import Category from '../../Filters/Category';
+import Search from '../../Filters/Search';
+import { useAuth } from '../../AuthContext';
+import Skeleton from 'react-loading-skeleton';
+import 'react-loading-skeleton/dist/skeleton.css';
+import { toast } from 'react-toastify';
 
 function ProductList() {
   const { addToCart, cartItems, removeFromCartById } = useCart();
@@ -24,7 +23,7 @@ function ProductList() {
   const { user } = useAuth();
   const [apiProducts, setApiProducts] = useState([]);
   const [manualProducts, setManualProducts] = useState(() => {
-    const saved = localStorage.getItem("manualProducts");
+    const saved = localStorage.getItem('manualProducts');
     return saved ? JSON.parse(saved) : [];
   });
   const [selectedProducts, setSelectedProducts] = useState({});
@@ -33,11 +32,11 @@ function ProductList() {
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
   const [showAddForm, setShowAddForm] = useState(false);
-  const [selectedcategory, setSelectedCategory] = useState("");
-  const [selectedRating, setSelectedRating] = useState("");
-  const [maxPrice, setMaxPrice] = useState("");
-  const [minPrice, setMinPrice] = useState("");
-  const [searchQuery, setSearchQuery] = useState("");
+  const [selectedcategory, setSelectedCategory] = useState('');
+  const [selectedRating, setSelectedRating] = useState('');
+  const [maxPrice, setMaxPrice] = useState('');
+  const [minPrice, setMinPrice] = useState('');
+  const [searchQuery, setSearchQuery] = useState('');
 
   const allProducts = [...manualProducts, ...apiProducts];
 
@@ -47,18 +46,18 @@ function ProductList() {
   const maxProductsPrice = Math.max(...allPrices);
 
   const cancelPrice = () => {
-    setMinPrice("");
-    setMaxPrice("");
+    setMinPrice('');
+    setMaxPrice('');
   };
 
   const filteredProducts = allProducts.filter((p) => {
     const productRating = p.rating.rate || p.rating;
-    const title = (p.title || p.Productname || "").toLowerCase();
-    const category = (p.category || "").toLowerCase();
+    const title = (p.title || p.Productname || '').toLowerCase();
+    const category = (p.category || '').toLowerCase();
     const query = searchQuery.toLowerCase().trim();
 
     const matchesSearch =
-      query === "" || title.includes(query) || category.includes(query);
+      query === '' || title.includes(query) || category.includes(query);
 
     return (
       matchesSearch &&
@@ -82,31 +81,29 @@ function ProductList() {
   );
 
   useEffect(() => {
-    localStorage.setItem("manualProducts", JSON.stringify(manualProducts));
+    localStorage.setItem('manualProducts', JSON.stringify(manualProducts));
   }, [manualProducts]);
 
-
-useEffect(() => {
-  setLoading(true);
-  fetchProducts(150)
-    .then(data => setApiProducts(data))
-    .catch(err => setError(err))
-    .finally(() => {
-      setTimeout(() => {
-        setLoading(false);
-      }, 5000);
-    });
-}, []);
-
-
+  useEffect(() => {
+    setLoading(true);
+    fetchProducts(150)
+      .then((data) => setApiProducts(data))
+      .catch((err) => setError(err))
+      .finally(() => {
+        setTimeout(() => {
+          setLoading(false);
+        }, 3000);
+      });
+  }, []);
 
   const toggleSelect = (id) => {
     setSelectedProducts((prev) => ({ ...prev, [id]: !prev[id] }));
   };
 
   const deleteSelected = () => {
-    const ids = Object.keys(selectedProducts)
-    .filter( (id) => selectedProducts[id] );
+    const ids = Object.keys(selectedProducts).filter(
+      (id) => selectedProducts[id]
+    );
     if (ids.length === 0) return;
 
     setManualProducts((prev) => prev.filter((p) => !ids.includes(p.id)));
@@ -114,12 +111,11 @@ useEffect(() => {
     setSelectedProducts({});
   };
 
-
   const deleteProducts = (id) => {
     setManualProducts((prev) => prev.filter((p) => p.id !== id));
     setApiProducts((prev) => prev.filter((p) => p.id !== id));
     removeFromCartById(id);
-    toast.warn("Product Deleted")
+    toast.warn('Product Deleted');
     setSelectedProducts((prev) => {
       const newSel = { ...prev };
       delete newSel[id];
@@ -130,7 +126,9 @@ useEffect(() => {
   const addManualProduct = (productsArray) => {
     const withIds = productsArray.map((prod) => ({ ...prod, id: uuidv4() }));
     setManualProducts((prev) => [...withIds, ...prev]);
-    toast.success(`${productsArray.length} ${productsArray.length > 1 ? "Products Added" : "Product Added"} ` )
+    toast.success(
+      `${productsArray.length} ${productsArray.length > 1 ? 'Products Added' : 'Product Added'} `
+    );
     setShowAddForm(false);
   };
 
@@ -152,20 +150,17 @@ useEffect(() => {
     );
 
   if (error) return <div>Error: {error.message}</div>;
-  
+
   const allVisibleSelected =
-  visible.length > 0 && visible.every((p) => selectedProducts[p.id]);
-  
+    visible.length > 0 && visible.every((p) => selectedProducts[p.id]);
+
   const getUniqueCategories = (products) => [
     ...new Set(products.map((p) => p.category)),
   ];
-  
-  
+
   return (
     <>
-      <div
-        className=" bg-gray-800/90 backdrop-filter backdrop-blur-sm flex flex-wrap items-center justify-between py-1 px-3 mb-4 gap-4 /* Use gap for consistent spacing ">
-        
+      <div className=" bg-gray-800/90 backdrop-filter backdrop-blur-sm flex flex-wrap items-center justify-between py-1 px-3 mb-4 gap-4 /* Use gap for consistent spacing ">
         <div className="flex flex-wrap items-center gap-4">
           <div className="flex flex-col">
             <Category
@@ -219,8 +214,7 @@ useEffect(() => {
           />
         </div>
 
-
-        {user.Type === "Admin" && (
+        {user.Type === 'Admin' && (
           <div className="flex items-center space-x-1 mr-10">
             <CommonButton
               label="Delete Selected"
@@ -231,7 +225,7 @@ useEffect(() => {
               label="Add Product"
               onClick={() => setShowAddForm(true)}
               className="bg-indigo-600 hover:bg-indigo-700 px-2 py-1 text-m text-white"
-              />
+            />
             <div className="ml-6 flex flex-col items-center text-xs">
               <input
                 type="checkbox"
@@ -246,7 +240,7 @@ useEffect(() => {
                 className="h-4 w-4 accent-indigo-400"
               />
               <span className="text-white mt-6 fixed ml-2 mr-4">
-                {allVisibleSelected ? "Unselect All" : "Select All"}
+                {allVisibleSelected ? 'Unselect All' : 'Select All'}
               </span>
             </div>
           </div>
@@ -259,8 +253,8 @@ useEffect(() => {
           addManualProduct={addManualProduct}
           setShowAddForm={setShowAddForm}
           onCancel={() => setShowAddForm(false)}
-          />
-        )}
+        />
+      )}
 
       <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6 p-4">
         <AnimatePresence mode="popLayout">
@@ -278,8 +272,7 @@ useEffect(() => {
             visible.map((p) => {
               const inCart = cartItems.some((ci) => ci.id === p.id);
               const checked = selectedProducts[p.id];
-              
-              
+
               return (
                 <motion.div
                   key={p.id}
@@ -307,7 +300,7 @@ useEffect(() => {
                       <span className="w-24 shrink-0 font-semibold">{`₹${p.price}`}</span>
                     }
                     rating={
-                      typeof p.rating === "object" ? p.rating.rate : p.rating
+                      typeof p.rating === 'object' ? p.rating.rate : p.rating
                     }
                     Desc={
                       <div className="text-xs text-gray-600 mb-2 max-h-25 overflow-y-scroll">
@@ -319,29 +312,27 @@ useEffect(() => {
                   >
                     <div className="space-y-2">
                       <CommonButton
-                        label={inCart ? "Go To Cart" : "Add To Cart"}
+                        label={inCart ? 'Go To Cart' : 'Add To Cart'}
                         onClick={() => {
-                          if(inCart){
-                            navigate("/cart")
+                          if (inCart) {
+                            navigate('/cart');
                           } else {
-                            addToCart(p)
-                            toast.success("Product Added to Cart")  
+                            addToCart(p);
+                            toast.success('Product Added to Cart');
                           }
-                        }
-                        }
-                        
+                        }}
                         className={`w-full py-2 text-white rounded ${
-                          inCart ? "bg-green-700" : "bg-indigo-600"
+                          inCart ? 'bg-green-700' : 'bg-indigo-600'
                         }`}
                       />
 
-                    {user.Type === "Admin" && (
-                      <CommonButton
-                      label="Delete"
-                      onClick={() => deleteProducts(p.id)}
-                      className="w-full py-2 text-white rounded bg-red-600 hover:bg-red-700"
-                      />
-                    )}
+                      {user.Type === 'Admin' && (
+                        <CommonButton
+                          label="Delete"
+                          onClick={() => deleteProducts(p.id)}
+                          className="w-full py-2 text-white rounded bg-red-600 hover:bg-red-700"
+                        />
+                      )}
                     </div>
                   </Card>
                 </motion.div>

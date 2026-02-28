@@ -1,30 +1,33 @@
-import React from "react";
-import { Link } from "react-router-dom";
-import { useAuth } from "../AuthContext";
-import SidebarLinks from "./SidebarLinks.json"
+import React from 'react';
+import { Link } from 'react-router-dom';
+import { useAuth } from '../AuthContext';
+import SidebarLinks from './SidebarLinks.json';
+import { SidebarContent, SidebarHeader } from './ui/sidebar';
 
 function Sidebar() {
   const { user } = useAuth();
-  const role = user ? (user.Type === "Admin" ? "admin" : "user") : 'guest';
+  const role = user ? (user.Type === 'Admin' ? 'admin' : 'user') : 'guest';
 
   return (
-    <aside className="sidebar w-64 h-full bg-gray-900 text-white p-4 space-y-4 shadow-lg">
-      <ul className="space-y-3">
- 
-        {SidebarLinks
-          .filter(link => link.roles.includes(role))
-          .map(({ label, path, icon }) => (
+    <div className="w-56 min-h-screen bg-gradient-to-b from-slate-900 via-slate-800 to-slate-900 text-slate-100 p-4 shadow-2xl border-r border-white/10">
+      <ul className="space-y-2">
+        {SidebarLinks.filter((link) => link.roles.includes(role)).map(
+          ({ label, path, icon }) => (
             <li key={path}>
               <Link
                 to={path}
-                className="flex items-center gap-2 px-3 py-2 rounded-lg hover:bg-gray-700 transition"
+                className="group flex items-center gap-3 px-4 py-3 rounded-xl text-sm font-medium transition-all duration-300 hover:bg-white/10 hover:shadow-md hover:scale-[1.02]"
               >
-                {icon} {label}
+                <span className="text-lg text-cyan-400 group-hover:text-cyan-300 transition-colors">
+                  {icon}
+                </span>
+                <span>{label}</span>
               </Link>
             </li>
-          ))}
+          )
+        )}
       </ul>
-    </aside>
+    </div>
   );
 }
 

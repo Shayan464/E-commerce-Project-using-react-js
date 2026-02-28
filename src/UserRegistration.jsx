@@ -1,64 +1,59 @@
-import React, { useState, useEffect } from "react";
-import FormComponent from "./FormComponent";
-import DataTable from "./DataTable";
-import { toast } from "react-toastify";
-
+import React, { useState, useEffect } from 'react';
+import FormComponent from './FormComponent';
+import DataTable from './DataTable';
+import { toast } from 'react-toastify';
 
 const UserRegistration = () => {
   const [user, setUser] = useState({
-    FirstName: "",
-    LastName: "",
-    Email: "",
-    Password : "",
-    Gender: "",
+    FirstName: '',
+    LastName: '',
+    Email: '',
+    Password: '',
+    Gender: '',
     Language: [],
-    Type: "",
-    Relation: "Married",
-    Description: "",
-    DOB: "",
+    Type: '',
+    Relation: 'Married',
+    Description: '',
+    DOB: '',
     isEditing: false,
     editingEntry: null,
   });
   const [Data, setData] = useState(() => {
-    const stored = localStorage.getItem("userData");
+    const stored = localStorage.getItem('userData');
     return stored ? JSON.parse(stored) : [];
   });
 
   useEffect(() => {
-    
-   localStorage.setItem("userData", JSON.stringify(Data));
+    localStorage.setItem('userData', JSON.stringify(Data));
   }, [Data]);
-
-
 
   const handleChange = (e) => {
     const { name, value, type, checked } = e.target;
 
-    if (type === "checkbox") {
+    if (type === 'checkbox') {
       setUser((prev) => {
         const list = prev.Language;
         if (checked) return { ...prev, Language: [...list, value] };
         return { ...prev, Language: list.filter((v) => v !== value) };
       });
-     
     } else {
       setUser((prev) => ({ ...prev, [name]: value }));
     }
-  }
-  
+  };
+
   //age calculator
   const calculateAge = (DOB) => {
     const birth = new Date(DOB);
     const today = new Date();
 
     if (birth > today) {
-      toast.error("Date of birth cannot be in the future");
+      toast.error('Date of birth cannot be in the future');
       return null;
     }
-    
+
     let years = today.getFullYear() - birth.getFullYear();
     let months = today.getMonth() - birth.getMonth();
-    
+
     if (today.getDate() < birth.getDate()) {
       months--;
     }
@@ -67,15 +62,15 @@ const UserRegistration = () => {
       years--;
       months += 12;
     }
-    
+
     if (years <= 0 && months <= 0) {
-      toast.error("Please select a valid Date of Birth");
+      toast.error('Please select a valid Date of Birth');
       return null;
     }
-    const yearStr = years ? `${years} year${years > 1 ? "s" : ""}` : "";
-    const monthStr = months ? `${months} month${months > 1 ? "s" : ""}` : "";
+    const yearStr = years ? `${years} year${years > 1 ? 's' : ''}` : '';
+    const monthStr = months ? `${months} month${months > 1 ? 's' : ''}` : '';
 
-    return [yearStr, monthStr].filter(Boolean).join(" ");
+    return [yearStr, monthStr].filter(Boolean).join(' ');
   };
 
   const handleSubmit = (e) => {
@@ -94,26 +89,35 @@ const UserRegistration = () => {
       isEditing,
       editingEntry,
     } = user;
-    
 
     if (
-      ![FirstName, LastName, Email,Password, Gender, Relation, Type,Description, DOB].every(Boolean) 
+      ![
+        FirstName,
+        LastName,
+        Email,
+        Password,
+        Gender,
+        Relation,
+        Type,
+        Description,
+        DOB,
+      ].every(Boolean)
     ) {
-      return toast.error("Please fill all fields");
+      return toast.error('Please fill all fields');
     }
 
     const passwordRegex =
-  /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@#$!%*?&])[A-Za-z\d@#$!%*?&]{8,}$/;
+      /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@#$!%*?&])[A-Za-z\d@#$!%*?&]{8,}$/;
 
-function validatePassword(pwd) {
-  return passwordRegex.test(pwd);
-}
-if (!validatePassword(user.Password)) {
-  return toast.error(
-    "Password must be at least 8 characters long,\n" +
-    "include uppercase, lowercase, a number, and a special character."
-  );
-}
+    function validatePassword(pwd) {
+      return passwordRegex.test(pwd);
+    }
+    if (!validatePassword(user.Password)) {
+      return toast.error(
+        'Password must be at least 8 characters long,\n' +
+          'include uppercase, lowercase, a number, and a special character.'
+      );
+    }
 
     const age = calculateAge(DOB);
     if (!age) return;
@@ -124,11 +128,11 @@ if (!validatePassword(user.Password)) {
       Email: Email,
       Password: Password,
       Gender: Gender,
-      Type : Type,
+      Type: Type,
       Language: Language,
-      Relation : Relation,
-      Description : Description,
-      DOB : DOB,
+      Relation: Relation,
+      Description: Description,
+      DOB: DOB,
       Age: age,
     };
 
@@ -137,7 +141,7 @@ if (!validatePassword(user.Password)) {
         item.Email.toLowerCase() === Email.toLowerCase() &&
         (!isEditing || item.id !== editingEntry.id)
     );
-    if (exists) return toast.error("Email already exists");
+    if (exists) return toast.error('Email already exists');
 
     setData((prev) =>
       isEditing
@@ -146,16 +150,16 @@ if (!validatePassword(user.Password)) {
     );
 
     setUser({
-      FirstName: "",
-      LastName: "",
-      Email: "",
-      Password:"",
-      Gender: "",
-      Type: "",
+      FirstName: '',
+      LastName: '',
+      Email: '',
+      Password: '',
+      Gender: '',
+      Type: '',
       Language: [],
-      Relation: "Married",
-      Description: "",
-      DOB: "",
+      Relation: 'Married',
+      Description: '',
+      DOB: '',
       isEditing: false,
       editingEntry: null,
     });
@@ -168,7 +172,7 @@ if (!validatePassword(user.Password)) {
       Email: entry.Email,
       Password: entry.Password,
       Gender: entry.Gender,
-      Type : entry.Type,
+      Type: entry.Type,
       Language: entry.Language,
       Relation: entry.Relation,
       Description: entry.Description,
@@ -181,16 +185,16 @@ if (!validatePassword(user.Password)) {
   const handleCancel = () =>
     setUser((prev) => ({
       ...prev,
-      FirstName: "",
-      LastName: "",
-      Email: "",
-      Password:"",
-      Gender: "",
-      Type : "",
+      FirstName: '',
+      LastName: '',
+      Email: '',
+      Password: '',
+      Gender: '',
+      Type: '',
       Language: [],
-      Relation: "Married",
-      Description: "",
-      DOB: "",
+      Relation: 'Married',
+      Description: '',
+      DOB: '',
       isEditing: false,
       editingEntry: null,
     }));
@@ -198,12 +202,10 @@ if (!validatePassword(user.Password)) {
   const handleDelete = (id) => {
     const updatedData = Data.filter((item) => item.id !== id);
     setData(updatedData);
-    
   };
 
   return (
-   <div>
-    
+    <div>
       <FormComponent
         user={user}
         onInputChange={handleChange}
@@ -211,7 +213,6 @@ if (!validatePassword(user.Password)) {
         onCancel={handleCancel}
       />
       <DataTable data={Data} onEdit={handleEdit} onDelete={handleDelete} />
-     
     </div>
   );
 };
